@@ -13,7 +13,7 @@
   "scripts":{"backend":"npm run dev -w backend","frontend":"npm run dev -w frontend","cli":"npm run dev -w legaldoc-cli","backend:start":"npm run start -w backend"},
   "devDependencies": {
     "@eslint/js": "^9.39.2",
-    "@types/node": "^25.2.0",
+    "@types/node": "^25.2.3",
     "@types/ws": "^8.18.1",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.52.0",
