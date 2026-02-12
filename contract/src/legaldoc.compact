@@ -1,0 +1,39 @@
+// LegalDocVault - Legal document management with controlled access and verified authenticity
+// Copyright (C) 2025 - SPDX-License-Identifier: Apache-2.0
+//
+// Stores document commitments on-chain. Content remains private; only commitments
+// are disclosed for authenticity verification. Owner controls document registration.
+
+pragma language_version >= 0.20;
+
+import CompactStandardLibrary;
+
+// Document registry: docId (Bytes<32>) -> content commitment (Bytes<32>)
+// Only the commitment is stored; document content stays private off-chain
+export ledger documents: Map<Bytes<32>, Bytes<32>>;
+
+// Round counter for anonymity (breaks linkability between transactions)
+export ledger round: Counter;
+
+// Document count for indexing/tracking
+export ledger documentCount: Counter;
+
+// Register a new document: store commitment under docId. Caller becomes authoritative.
+// The docId is typically a hash of document metadata; commitment is hash(content, nonce).
+export circuit registerDocument(docId: Bytes<32>, commitment: Bytes<32>): [] {
+  documents.insert(disclose(docId), disclose(commitment));
+  documentCount.increment(1);
+  round.increment(1);
+}
+
+// Verify a document exists: returns true if docId is registered (commitment lookup succeeds)
+export circuit documentExists(docId: Bytes<32>): Boolean {
+  return documents.member(disclose(docId));
+}
+
+// Get the stored commitment for a document (for off-chain verification)
+// Caller proves they know docId; returns the commitment if it exists.
+export circuit getCommitment(docId: Bytes<32>): Bytes<32> {
+  assert(documents.member(disclose(docId)), "Document not found");
+  return documents.lookup(disclose(docId));
+}

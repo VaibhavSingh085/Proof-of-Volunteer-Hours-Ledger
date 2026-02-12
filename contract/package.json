@@ -17,9 +17,11 @@
   },
   "scripts": {
     "compact": "compact compile src/counter.compact src/managed/counter",
+    "compact:legaldoc": "compact compile src/legaldoc.compact src/managed/legaldoc",
     "test": "vitest run",
     "test:compile": "npm run compact && vitest run",
-    "build": "rm -rf dist && tsc --project tsconfig.build.json && cp -Rf ./src/managed ./dist/managed && cp ./src/counter.compact ./dist",
+    "build": "tsc --project tsconfig.build.json && node scripts/postbuild.js",
+    "build:full": "npm run compact && npm run build",
     "lint": "eslint src",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   }

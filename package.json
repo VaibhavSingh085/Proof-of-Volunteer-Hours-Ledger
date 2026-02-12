@@ -1,12 +1,16 @@
 {
-  "name": "example-counter",
-  "version": "2.0.2",
+  "name": "legaldoc-vault",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "workspaces": [
-    "counter-cli",
-    "contract"
+    "contract",
+    "backend",
+    "frontend",
+    "legaldoc-cli",
+    "counter-cli"
   ],
+  "scripts":{"backend":"npm run dev -w backend","frontend":"npm run dev -w frontend","cli":"npm run dev -w legaldoc-cli","backend:start":"npm run start -w backend"},
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@types/node": "^25.2.0",
@@ -42,3 +46,4 @@
     "ws": "^8.19.0"
   }
 }
+
